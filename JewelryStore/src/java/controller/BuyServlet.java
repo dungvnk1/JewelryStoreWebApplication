@@ -34,6 +34,7 @@ public class BuyServlet extends HttpServlet {
         ProductDAO pd = new ProductDAO();
         pd.updateProduct();
         cad.deleteCart();
+        pd.deleteProductItem();
         response.sendRedirect("home");
     } 
 

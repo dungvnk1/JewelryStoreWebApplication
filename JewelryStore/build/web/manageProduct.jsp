@@ -214,22 +214,22 @@
         <script src="js/manager.js" type="text/javascript"></script>
         
         <%
-            String errorPrice = (String) request.getAttribute("errPrice");
-            if(errorPrice != null) {
+            String errorQuantity = (String) request.getAttribute("errQuantity");
+            if(errorQuantity != null) {
         %>
             <script type="text/javascript">
-                alert("<%= errorPrice %>");
+                alert("<%= errorQuantity %>");
             </script>
         <%
             }
         %>
         
         <%
-            String errorQuantity = (String) request.getAttribute("errQuantity");
-            if(errorQuantity != null) {
+            String errorPrice = (String) request.getAttribute("errPrice");
+            if(errorPrice != null) {
         %>
             <script type="text/javascript">
-                alert("<%= errorQuantity %>");
+                alert("<%= errorPrice %>");
             </script>
         <%
             }

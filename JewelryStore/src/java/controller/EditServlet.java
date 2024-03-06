@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Category;
 import model.Product;
@@ -42,9 +43,30 @@ public class EditServlet extends HttpServlet {
         String pDescription = request.getParameter("description");
         String pCategory = request.getParameter("category");
         
-        ProductDAO pd = new ProductDAO();
-        pd.editProduct(pName, pImage, pPrice, pDescription,pQuantity, pCategory, pID);
-        response.sendRedirect("manageProduct");
+//        ProductDAO pd = new ProductDAO();
+//        pd.editProduct(pName, pImage, pPrice, pDescription, pQuantity, pCategory, pID);
+//        request.getRequestDispatcher("manageProduct").forward(request, response);
+        
+        
+        try {
+            double priceN = Double.parseDouble(pPrice);
+            int quantityN = Integer.parseInt(pQuantity);
+            if (priceN <= 0) {
+                request.setAttribute("errPrice", "Price must be bigger than 0!");
+            }
+            if (quantityN <= 0) {
+                request.setAttribute("errQuantity", "Quantity must be bigger than 0!");
+            } 
+            if (quantityN > 0 && priceN > 0){
+                ProductDAO pd = new ProductDAO();
+                pd.editProduct(pName, pImage, pPrice, pDescription, pQuantity, pCategory, pID);
+            }
+            
+            request.getRequestDispatcher("manageProduct").forward(request, response);
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

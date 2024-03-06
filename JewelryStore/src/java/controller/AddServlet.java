@@ -38,12 +38,12 @@ public class AddServlet extends HttpServlet {
         String category = request.getParameter("category");
         
         try {
-            int priceN = Integer.parseInt(price);
+            double priceN = Double.parseDouble(price);
             int quantityN = Integer.parseInt(quantity);
             if (priceN <= 0) {
-                request.setAttribute("errPrice", "Price must be bigget than 0!");
+                request.setAttribute("errPrice", "Price must be bigger than 0!");
             } else if (quantityN <= 0) {
-                request.setAttribute("errQuantity", "Quantity must be bigget than 0!");
+                request.setAttribute("errQuantity", "Quantity must be bigger than 0!");
             } else {
                 ProductDAO pd = new ProductDAO();
                 pd.insertProduct(name, image, price, quantity, description, category);

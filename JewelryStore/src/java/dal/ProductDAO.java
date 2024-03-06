@@ -282,6 +282,17 @@ public class ProductDAO extends DBContext {
         }
     }
     
+    public void deleteProductItem(){
+        String sql = "delete from Product\n"
+                    + "where pQuantity < 1";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.executeUpdate();
+        } catch (SQLException e) {
+             System.out.println(e);
+        }
+    }
+    
 //    public List<Product> productFilter(String cID, String minP, String maxP){
 //        List<Product> list = new ArrayList<>();
 //        String sql = "select * from Product\n"
