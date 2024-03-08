@@ -33,8 +33,10 @@ public class MinusQuantityCartServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String pID = request.getParameter("pID");
+        String uID = request.getParameter("uID");
+        int ucID = Integer.parseInt(uID);
         CartDAO cad = new CartDAO();
-        List<Cart> carts = cad.getAllCart();
+        List<Cart> carts = cad.getAllCartByID(ucID);
         int pcID = Integer.parseInt(pID);
 
         Iterator<Cart> iterator = carts.iterator();
@@ -43,9 +45,9 @@ public class MinusQuantityCartServlet extends HttpServlet {
             if (item.getP().getpID() == pcID) {
                 if (item.getQuantity() > 1) {
                     item.setQuantity(item.getQuantity() - 1);
-                    cad.updateCart(item);
+                    cad.updateCartByID(item, ucID);
                 } else {
-                    cad.deleteItem(pcID);
+                    cad.deleteItemByID(pcID, ucID);
                     iterator.remove();
                 }
             }

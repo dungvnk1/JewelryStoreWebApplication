@@ -6,15 +6,12 @@
 package controller;
 
 import dal.CartDAO;
-import dal.OrderDAO;
-import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Cart;
 
@@ -22,7 +19,7 @@ import model.Cart;
  *
  * @author Acer
  */
-public class BuyServlet extends HttpServlet {
+public class BeforeBuyServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,24 +31,26 @@ public class BuyServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String uID = request.getParameter("uID");
-        String oName = request.getParameter("name");
-        String oAddress = request.getParameter("address");
-        String oPhone = request.getParameter("phone");
-        int ucID = Integer.parseInt(uID);
-        CartDAO cad = new CartDAO();
-        ProductDAO pd = new ProductDAO();
-        OrderDAO od = new OrderDAO();
-        List<Cart> listCart = cad.getAllCart(ucID);
-        for(Cart c : listCart){
-            od.insertOrder(oName, oAddress, oPhone, c.getQuantity(), (c.getP().getpPrice() * c.getQuantity()), c.getP().getpID(), ucID);
+        String uIDS = request.getParameter("uID");
+        try {
+            int uID = Integer.parseInt(uIDS);
+            double total = 0;
+            CartDAO cad = new CartDAO();
+            List<Cart> listCart = cad.getAllCartByID(uID);
+            if (listCart.isEmpty()) {
+                request.setAttribute("errCart", "You don't have any items in your cart to order!");
+                request.getRequestDispatcher("cart.jsp").forward(request, response);
+            } else {
+                for (Cart c : listCart) {
+                    total += c.getQuantity() * c.getP().getpPrice();
+                }
+                request.setAttribute("total", total);
+                request.setAttribute("listCart", listCart);
+                request.getRequestDispatcher("beforeBuy.jsp").forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(e);
         }
-
-        pd.updateProduct(ucID);
-        cad.deleteCartByID(ucID);
-        pd.deleteProductItem();
-        request.setAttribute("buySuccess", "Buy successfully!");
-        request.getRequestDispatcher("home").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

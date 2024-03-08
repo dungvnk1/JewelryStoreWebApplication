@@ -21,9 +21,8 @@
                         </button>
                     </div>
                 </div>
-                <a class="btn btn-success btn-sm ml-3" href="loadCart">
+                    <a class="btn btn-success btn-sm ml-3" href="loadCart?uID=${sessionScope.acc.userID}">
                     <i class="fa fa-shopping-cart"></i> Cart
-                    <span class="badge badge-light">${sessionScope.size}</span>
                 </a>
             </form>
 

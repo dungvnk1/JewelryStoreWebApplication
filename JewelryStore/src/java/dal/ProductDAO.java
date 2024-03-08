@@ -262,25 +262,48 @@ public class ProductDAO extends DBContext {
         return null;
     }
     
-    public void updateProduct() {
+//    public void updateProduct() {
+//        String sql = "UPDATE Product\n"
+//                + "SET pQuantity = pQuantity - (\n"
+//                + "    SELECT quantity\n"
+//                + "    FROM Cart\n"
+//                + "    WHERE Product.pID = Cart.pcID\n"
+//                + ")\n"
+//                + "WHERE pID IN (\n"
+//                + "    SELECT pcID\n"
+//                + "    FROM Cart\n"
+//                + ");";
+//        try {
+//            PreparedStatement st = connection.prepareStatement(sql);
+//            
+//            st.executeUpdate();
+//        } catch (SQLException e) {
+//            System.out.println(e);
+//        }
+//    }
+    
+    public void updateProduct(int userID) {
         String sql = "UPDATE Product\n"
                 + "SET pQuantity = pQuantity - (\n"
                 + "    SELECT quantity\n"
                 + "    FROM Cart\n"
-                + "    WHERE Product.pID = Cart.pcID\n"
+                + "    WHERE Product.pID = Cart.pcID AND Cart.ucID = ?\n"
                 + ")\n"
                 + "WHERE pID IN (\n"
                 + "    SELECT pcID\n"
                 + "    FROM Cart\n"
+                + "    WHERE Cart.ucID = ?\n"
                 + ");";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            
+            st.setInt(1, userID);
+            st.setInt(2, userID);
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
+
     
     public void deleteProductItem(){
         String sql = "delete from Product\n"

@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap CRUD Data Table for Database with Modal Form</title>
+        <title>Cart</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,7 +50,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Manage <b>Cart</b></h2>
+                            <h2>Manage <b>Cart</b></h2> 
                         </div>
                         <div class="col-sm-6">
                             <a href="/jewelrystore/home"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Cart</span></a>
@@ -79,12 +79,6 @@
                     <tbody>
                         <c:forEach items="${listCart}" var="o">
                             <tr>
-<!--                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>-->
                                 <td>${o.p.pID}</td>
                                 <td>${o.p.pName}</td>
                                 <td>
@@ -93,8 +87,8 @@
                                 <td>${o.p.pPrice} $</td>
                                 <td>${o.quantity}</td>
                                 <td>
-                                    <a href="addQuantityCart?pID=${o.p.pID}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE145;</i></a>
-                                    <a href="minusQuantityCart?pID=${o.p.pID}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE15B;</i></a>
+                                    <a href="addQuantityCart?pID=${o.p.pID}&uID=${sessionScope.acc.userID}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE145;</i></a>
+                                    <a href="minusQuantityCart?pID=${o.p.pID}&uID=${sessionScope.acc.userID}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE15B;</i></a>
                                 </td>
                                 <td>${o.p.pPrice*o.quantity} $</td>
                             </tr>
@@ -107,7 +101,7 @@
                                 <div class="alert alert-primary" style="font-size: 20px">Mặt hàng có ít sản phẩm nhất: <b></b></div>
                                 <div class="alert alert-primary" style="font-size: 20px">Mặt hàng có nhiều sản phẩm nhất: <b></b></div>-->
                 <div style="margin-left: 85%">
-                    <a href="buy" class="btn btn-success">Buy</a>
+                    <a href="beforeBuy?uID=${sessionScope.acc.userID}" class="btn btn-success">Buy</a>
                     <a href="home" class="btn btn-info">Back</a>
                 </div>
 
@@ -225,6 +219,17 @@
         %>
             <script type="text/javascript">
                 alert("<%= errorMessage %>");
+            </script>
+        <%
+            }
+        %>
+        
+        <%
+            String errorEmpty = (String) request.getAttribute("errCart");
+            if(errorEmpty != null) {
+        %>
+            <script type="text/javascript">
+                alert("<%= errorEmpty %>");
             </script>
         <%
             }

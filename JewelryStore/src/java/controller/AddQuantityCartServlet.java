@@ -33,31 +33,33 @@ public class AddQuantityCartServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String pID = request.getParameter("pID");
+        String uID = request.getParameter("uID");
+        int ucID = Integer.parseInt(uID);
         CartDAO cad = new CartDAO();
         ProductDAO pd = new ProductDAO();
-        List<Cart> carts = cad.getAllCart();
+        List<Cart> carts = cad.getAllCartByID(ucID);
         try {
             int pcID = Integer.parseInt(pID);
-        
-        for (Cart item : carts) {
-            if (item.getP().getpID() == pcID) {
-                if(item.getQuantity() < pd.getProductByPID(pID).getpQuantity()){
-                    item.setQuantity(item.getQuantity() + 1);
-                    cad.updateCart(item);
+
+            for (Cart item : carts) {
+                if (item.getP().getpID() == pcID) {
+                    if (item.getQuantity() < pd.getProductByPID(pID).getpQuantity()) {
+                        item.setQuantity(item.getQuantity() + 1);
+                        cad.updateCartByID(item,ucID);
+                    } else {
+                        request.setAttribute("errNum", "We don't have any more items left!");
+                    }
                 }
-                else request.setAttribute("errNum", "We don't have any more items left!");
             }
-        }
-       
-        
-        double totalCost = 0;
-        for(Cart c : carts){
-            totalCost += c.getP().getpPrice() * c.getQuantity();
-        }
-        request.setAttribute("totalCost", totalCost);
-        
-        request.setAttribute("listCart", carts);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+
+            double totalCost = 0;
+            for (Cart c : carts) {
+                totalCost += c.getP().getpPrice() * c.getQuantity();
+            }
+            request.setAttribute("totalCost", totalCost);
+
+            request.setAttribute("listCart", carts);
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             System.out.println(e);
         }

@@ -14,6 +14,16 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
         <link href="css/login.css" rel="stylesheet" type="text/css"/>
         <title>Login Form</title>
+        <%
+            String errorMessage = (String) request.getAttribute("loginFirst");
+            if(errorMessage != null) {
+        %>
+            <script type="text/javascript">
+                alert("<%= errorMessage %>");
+            </script>
+        <%
+            }
+        %>
     </head>
     <body>
         <div id="logreg-forms">

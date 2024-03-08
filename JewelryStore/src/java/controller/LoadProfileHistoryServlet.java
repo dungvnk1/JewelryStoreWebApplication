@@ -5,9 +5,9 @@
 
 package controller;
 
-import dal.CartDAO;
 import dal.OrderDAO;
 import dal.ProductDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,13 +16,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.Cart;
+import model.Order;
+import model.Product;
+import model.User;
 
 /**
  *
  * @author Acer
  */
-public class BuyServlet extends HttpServlet {
+public class LoadProfileHistoryServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,24 +36,41 @@ public class BuyServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String uID = request.getParameter("uID");
-        String oName = request.getParameter("name");
-        String oAddress = request.getParameter("address");
-        String oPhone = request.getParameter("phone");
-        int ucID = Integer.parseInt(uID);
-        CartDAO cad = new CartDAO();
-        ProductDAO pd = new ProductDAO();
-        OrderDAO od = new OrderDAO();
-        List<Cart> listCart = cad.getAllCart(ucID);
-        for(Cart c : listCart){
-            od.insertOrder(oName, oAddress, oPhone, c.getQuantity(), (c.getP().getpPrice() * c.getQuantity()), c.getP().getpID(), ucID);
+        String uIDS = request.getParameter("uID");
+        HttpSession session = request.getSession();
+        try {
+            int uID = Integer.parseInt(uIDS);
+            OrderDAO od = new OrderDAO();
+            User u = (User) session.getAttribute("acc");
+            
+            ProductDAO pd = new ProductDAO();
+            Product p = pd.getLast();
+            request.setAttribute("lastP", p);
+            
+            if(u.getRoleID() == 2){
+                double totalMoney = 0;
+                List<Order> listOrder = od.getAllOrderByID(uID);
+                for(Order o : listOrder){
+                    totalMoney += o.getTotal();
+                }
+                request.setAttribute("totalMoney", totalMoney);
+                request.setAttribute("listOrder", listOrder);
+            }
+            if(u.getRoleID() == 1){
+                double totalMoney = 0;
+                List<Order> listOrder = od.getAllOrder();
+                for(Order o : listOrder){
+                    totalMoney += o.getTotal();
+                }
+                request.setAttribute("totalMoney", totalMoney);
+                request.setAttribute("listOrder", listOrder);
+            }
+            
+            
+            request.getRequestDispatcher("historyOrder.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            System.out.println(e);
         }
-
-        pd.updateProduct(ucID);
-        cad.deleteCartByID(ucID);
-        pd.deleteProductItem();
-        request.setAttribute("buySuccess", "Buy successfully!");
-        request.getRequestDispatcher("home").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

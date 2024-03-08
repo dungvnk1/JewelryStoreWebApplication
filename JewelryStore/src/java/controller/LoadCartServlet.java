@@ -7,13 +7,10 @@ package controller;
 
 import dal.CartDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import model.Cart;
 
@@ -33,17 +30,25 @@ public class LoadCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        CartDAO cad = new CartDAO();
-        List<Cart> listCart = cad.getAllCart();
-        
-        double totalCost = 0;
-        for(Cart c : listCart){
-            totalCost += c.getP().getpPrice() * c.getQuantity();
+        String uID = request.getParameter("uID");
+        if (uID.equals("")) {
+            request.setAttribute("loginFirst", "Please login before seeing your cart!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            int ucID = Integer.parseInt(uID);
+            CartDAO cad = new CartDAO();
+            List<Cart> listCart = cad.getAllCartByID(ucID);
+
+            double totalCost = 0;
+            for (Cart c : listCart) {
+                totalCost += c.getP().getpPrice() * c.getQuantity();
+            }
+            request.setAttribute("totalCost", totalCost);
+
+            request.setAttribute("listCart", listCart);
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
         }
-        request.setAttribute("totalCost", totalCost);
-        
-        request.setAttribute("listCart", listCart);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

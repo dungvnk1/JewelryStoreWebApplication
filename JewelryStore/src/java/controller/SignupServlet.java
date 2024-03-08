@@ -7,7 +7,6 @@ package controller;
 
 import dal.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,9 +46,6 @@ public class SignupServlet extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else if(!email.contains("@")){
             request.setAttribute("errMail", "Your email is invalid! Please sign up again!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        } else if(phone.length()!=11){
-            request.setAttribute("errPhone", "Your phone must have 11 numbers! Please sign up again!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else{
             UserDAO ud = new UserDAO();

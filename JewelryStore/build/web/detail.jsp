@@ -81,26 +81,19 @@
                                             <dt>Description</dt>
                                             <dd><p>${detail.pDescription} </p></dd>
                                         </dl>
+                                            <hr>
+                                            <p class="price-detail-wrap"> 
+                                                <span class="price h3 text-warning"> 
+                                                    <span class="currency">Quantity in stock: </span><span class="num">${detail.pQuantity}</span>
+                                                </span> 
+                                            </p>
+                                            <hr>    
                                         
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-5">
-                                                <dl class="param param-inline">
-                                                    <dt>Quantity: </dt>
-                                                    <dd>
-                                                        <select class="form-control form-control-sm" style="width:70px;">
-                                                            <option> 1 </option>
-                                                            <option> 2 </option>
-                                                            <option> 3 </option>
-                                                        </select>
-                                                    </dd>
-                                                </dl>  <!-- item-property .// -->
-                                            </div> <!-- col.// -->
-                                            
-                                        </div> <!-- row.// -->
-                                        <hr>
-                                        <a href="addToCart?pID=${detail.pID}" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
-                                        <a href="addToCart?pID=${detail.pID}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fa fa-shopping-cart"></i> Add to cart </a>
+                                        <c:if test="${sessionScope.acc.roleID == 2}">
+                                            <a href="addToCart?pID=${detail.pID}&uID=${sessionScope.acc.userID}" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
+                                            <a href="addToCart?pID=${detail.pID}&uID=${sessionScope.acc.userID}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fa fa-shopping-cart"></i> Add to cart </a>
+                                        </c:if>
+                                        
                                     </article> <!-- card-body.// -->
                                 </aside> <!-- col.// -->
                             </div> <!-- row.// -->

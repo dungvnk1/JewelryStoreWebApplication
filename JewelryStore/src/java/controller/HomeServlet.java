@@ -48,13 +48,11 @@ public class HomeServlet extends HttpServlet {
         List<Category> listC = cd.getAllCategory();
         Product lastP = pd.getLast();
         int numberPage = pd.getNumberPage();
-        int size = cad.getAllCart().size();
         
         request.setAttribute("listP",listP);
         request.setAttribute("listC",listC);
         request.setAttribute("lastP",lastP);
         request.setAttribute("numberPage",numberPage);
-        request.setAttribute("size", size);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     } 
 

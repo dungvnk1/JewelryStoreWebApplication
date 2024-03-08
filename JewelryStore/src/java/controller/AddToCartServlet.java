@@ -7,6 +7,7 @@ package controller;
 
 import dal.CartDAO;
 import dal.ProductDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Cart;
 import model.Product;
+import model.User;
 
 /**
  *
@@ -36,41 +38,55 @@ public class AddToCartServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String pID = request.getParameter("pID");
-        HttpSession session = request.getSession();
-        ProductDAO pd = new ProductDAO();
-        CartDAO cad = new CartDAO();
-        int pcID = Integer.parseInt(pID);
-        Product p = pd.getProductByPID(pID);
-
-        if (cad.getAllCart() == null) {
-            cad.insertCart(pcID, 1);
+        String uID = request.getParameter("uID");
+        
+        
+        if (uID.equals("")) {
+            request.setAttribute("loginFirst", "Please login before seeing your cart!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
-            List<Cart> carts = cad.getAllCart();
-            boolean foundProduct = false; // Flag to track if product is found in existing cart
+            HttpSession session = request.getSession();
+            ProductDAO pd = new ProductDAO();
+            CartDAO cad = new CartDAO();
+            UserDAO ud = new UserDAO();
+            int pcID = Integer.parseInt(pID);
+            int ucID = Integer.parseInt(uID);
+            Product p = pd.getProductByPID(pID);
+            User u = ud.getUserByID(uID);
+            if (cad.getAllCartByID(ucID) == null) {
+                cad.insertCartByID(ucID, pcID, 1);
+            } else {
+                List<Cart> carts = cad.getAllCartByID(ucID);
+                boolean foundProduct = false; // Flag to track if product is found in existing cart
 
-            for (Cart item : carts) {
-                if (item.getP().getpID() == pcID) {
-                    item.setQuantity(item.getQuantity()+1);
-                    cad.updateCart(item);
-                    foundProduct = true;
+                for (Cart item : carts) {
+                    if (item.getP().getpID() == pcID) {
+                        item.setQuantity(item.getQuantity() + 1);
+                        session.setAttribute("a", item.getQuantity());
+                        session.setAttribute("b", item.getuID());
+                        session.setAttribute("c", item.getP().getpID());
+                        cad.updateCartByID(item, ucID);
+                        foundProduct = true;
+                    }
+                }
+
+                if (!foundProduct) { // If product not found, add new entry with quantity 1
+                    cad.insertCartByID(ucID, pcID, 1);
                 }
             }
+            List<Cart> listCart = cad.getAllCartByID(ucID);
 
-            if (!foundProduct) { // If product not found, add new entry with quantity 1
-                cad.insertCart(pcID, 1);
+            double totalCost = 0;
+            for (Cart c : listCart) {
+                totalCost += c.getP().getpPrice() * c.getQuantity();
             }
+            request.setAttribute("totalCost", totalCost);
+
+            session.setAttribute("listCart", listCart);
+
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
         }
-        List<Cart> listCart = cad.getAllCart();
         
-        double totalCost = 0;
-        for(Cart c : listCart){
-            totalCost += c.getP().getpPrice() * c.getQuantity();
-        }
-        request.setAttribute("totalCost", totalCost);
-        
-        session.setAttribute("listCart", listCart);
-        
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

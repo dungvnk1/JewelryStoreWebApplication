@@ -11,6 +11,27 @@
         <!------ Include the above in your HEAD tag ---------->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <%
+            String buyMes = (String) request.getAttribute("buySuccess");
+            if(buyMes != null) {
+        %>
+            <script type="text/javascript">
+                alert("<%= buyMes %>");
+            </script>
+        <%
+            }
+        %>
+        
+        <%
+            String errMes = (String) request.getAttribute("errAuth");
+            if(errMes != null) {
+        %>
+            <script type="text/javascript">
+                alert("<%= errMes %>");
+            </script>
+        <%
+            }
+        %>
     </head>
     <body>
         <jsp:include page="menu.jsp"></jsp:include>
@@ -20,13 +41,13 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="home">Home</a></li>
-                            <li class="breadcrumb-item"><a href="home">Category</a></li>
-                            <li class="breadcrumb-item active" aria-current="#">Sub-category</li>
+                            <li class="breadcrumb-item active" aria-current="#">Category</li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
+        
         <div class="container">
             <div class="row">
                 <jsp:include page="leftMenu.jsp"></jsp:include>
@@ -39,14 +60,17 @@
                                     <div class="card-body">
                                         <h4 class="card-title show_txt"><a href="detail?pID=${o.pID}" title="View Product">${o.pName}</a></h4>
                                         <p class="card-text show_txt">${o.pDescription}</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <a class="btn btn-danger btn-block" href="addToCart?pID=${o.pID}">${o.pPrice} $</a>
-                                            </div>
+                                        <c:if test="${sessionScope.acc.roleID == 2}">
+                                            <div class="row">
                                                 <div class="col">
-                                                    <a href="addToCart?pID=${o.pID}" class="btn btn-success btn-block">Add to cart</a>
+                                                    <a class="btn btn-danger btn-block" href="addToCart?pID=${o.pID}&uID=${sessionScope.acc.userID}">${o.pPrice} $</a>
                                                 </div>
-                                        </div>
+                                                <div class="col">
+                                                    <a href="addToCart?pID=${o.pID}&uID=${sessionScope.acc.userID}" class="btn btn-success btn-block">Add to cart</a>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                        
                                     </div>
                                 </div>
                             </div>

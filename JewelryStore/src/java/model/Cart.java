@@ -11,15 +11,17 @@ package model;
 public class Cart {
     private int cartID;
     private Product p;
+    private int uID;
     private int quantity;
 
     public Cart() {
         
     }
 
-    public Cart(int cartID, Product p, int quantity) {
+    public Cart(int cartID, Product p, int uID, int quantity) {
         this.cartID = cartID;
         this.p = p;
+        this.uID = uID;
         this.quantity = quantity;
     }
 
@@ -39,6 +41,14 @@ public class Cart {
         this.quantity = quantity;
     }
 
+    public int getuID() {
+        return uID;
+    }
+
+    public void setuID(int uID) {
+        this.uID = uID;
+    }
+
     public int getCartID() {
         return cartID;
     }
@@ -49,7 +59,7 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" + "p=" + p + ", quantity=" + quantity + '}';
+        return "Cart{" + cartID + "p=" + p + ", quantity=" + quantity + '}';
     }
     
     
