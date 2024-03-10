@@ -12,6 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -30,9 +32,17 @@ public class DeleteUserServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String uID = request.getParameter("uID");
+        String accID = request.getParameter("accID");
         UserDAO ud = new UserDAO();
-        ud.deleteUser(uID);
-        response.sendRedirect("manageAccount");
+        if(accID.equals(uID)){
+            ud.deleteUser(uID);
+            request.setAttribute("errAcc", "You just deleted yourself! Please sign in again!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            ud.deleteUser(uID);
+            response.sendRedirect("manageAccount");
+        }
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

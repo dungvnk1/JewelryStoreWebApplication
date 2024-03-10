@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Java/JewelryStore/JewelryStore/src/java/model/Order.java</file>
-            <file>file:/E:/Java/JewelryStore/JewelryStore/src/java/dal/OrderDAO.java</file>
-            <file>file:/E:/Java/JewelryStore/JewelryStore/web/beforeBuy.jsp</file>
-            <file>file:/E:/Java/JewelryStore/JewelryStore/src/java/controller/LoadProfileHistoryServlet.java</file>
-            <file>file:/E:/Java/JewelryStore/JewelryStore/web/historyOrder.jsp</file>
-            <file>file:/E:/Java/JewelryStore/JewelryStore/web/leftMenuProfile.jsp</file>
+            <file>file:/E:/Java/JewelryStore/JewelryStore/web/manageAccount.jsp</file>
+            <file>file:/E:/Java/JewelryStore/JewelryStore/src/java/controller/ManageProductServlet.java</file>
+            <file>file:/E:/Java/JewelryStore/JewelryStore/src/java/controller/ManageAccountServlet.java</file>
+            <file>file:/E:/Java/JewelryStore/JewelryStore/web/manageProduct.jsp</file>
+            <file>file:/E:/Java/JewelryStore/JewelryStore/web/login.jsp</file>
+            <file>file:/E:/Java/JewelryStore/JewelryStore/src/java/controller/DeleteUserServlet.java</file>
+            <file>file:/E:/Java/JewelryStore/JewelryStore/src/java/dal/UserDAO.java</file>
         </group>
     </open-files>
 </project-private>

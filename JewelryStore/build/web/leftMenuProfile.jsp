@@ -7,7 +7,7 @@
         <ul class="list-group category_block">
             <li class="list-group-item text-white ${tag == 1 ? "active":""}"><a href="loadProfileToEdit?uID=${user.userID}">Chỉnh sửa hồ sơ</a></li>
             <li class="list-group-item text-white ${tag == 2 ? "active":""}"><a href="loadProfilePassword?uID=${user.userID}">Thay đổi mật khẩu</a></li>
-            <li class="list-group-item text-white ${tag == 3 ? "active":""}"><a href="loadProfileHistory?uID=${user.userID}">Lịch sử giao dịch</a></li>
+            <li class="list-group-item text-white ${tag == 3 ? "active":""}"><a href="loadProfileHistory?uID=${user.userID}">Lịch sử đơn hàng</a></li>
         </ul>
     </div>
     <div class="card bg-light mb-3">

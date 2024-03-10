@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.User;
 
@@ -32,7 +33,6 @@ public class ManageAccountServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         UserDAO ud = new UserDAO();
-        
         List<User> listU = ud.getAll();
         
         request.setAttribute("listU", listU);

@@ -60,7 +60,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title show_txt"><a href="detail?pID=${o.pID}" title="View Product">${o.pName}</a></h4>
                                         <p class="card-text show_txt">${o.pDescription}</p>
-                                        <c:if test="${sessionScope.acc.roleID == 2}">
+                                        <c:if test="${sessionScope.acc.roleID != 1}">
                                             <div class="row">
                                                 <div class="col">
                                                     <a class="btn btn-danger btn-block" href="addToCart?pID=${o.pID}&uID=${sessionScope.acc.userID}">${o.pPrice} $</a>

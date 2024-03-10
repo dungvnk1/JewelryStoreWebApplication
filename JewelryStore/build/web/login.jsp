@@ -24,6 +24,17 @@
         <%
             }
         %>
+        
+        <%
+            String errorAcc = (String) request.getAttribute("errAcc");
+            if(errorAcc != null) {
+        %>
+            <script type="text/javascript">
+                alert("<%= errorAcc %>");
+            </script>
+        <%
+            }
+        %>
     </head>
     <body>
         <div id="logreg-forms">

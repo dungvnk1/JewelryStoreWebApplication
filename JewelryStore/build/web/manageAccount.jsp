@@ -23,7 +23,7 @@
         <script type="text/javascript">
             function doDelete(id){
                 if(confirm("Are you sure to delete it?")){
-                    window.location="deleteUser?uID="+id;
+                    window.location="deleteUser?uID="+id+"&accID=${sessionScope.acc.userID}";
                 }
             }
         </script>
