@@ -1,6 +1,6 @@
 # JewelryStoreWebApplication
 
-This is website for a jewelry store! 
+This is website for a jewelry store using Java, JSP and Servlet! 
 - Home Page:
   ![image](https://github.com/dungvnk1/JewelryStoreWebApplication/assets/126397851/78d33b3d-9da6-4fbe-91cb-696b27b2879c)
   ![image](https://github.com/dungvnk1/JewelryStoreWebApplication/assets/126397851/0714bba4-1e49-4677-a0d3-3705f5ecd769)
