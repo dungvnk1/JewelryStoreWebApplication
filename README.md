@@ -6,6 +6,7 @@ This is website for a jewelry store using Java, JSP and Servlet!
   ![image](https://github.com/dungvnk1/JewelryStoreWebApplication/assets/126397851/0714bba4-1e49-4677-a0d3-3705f5ecd769)
   
 - Login Page:
+  
   ![image](https://github.com/dungvnk1/JewelryStoreWebApplication/assets/126397851/d02709ae-e58f-42c7-81de-bca97b7cbb82)
 
 - Admin Page:
